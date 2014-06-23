@@ -24,10 +24,11 @@ $output = '<h1>' . t('Moodle grades') . '</h1>';
 
 $header = array(t('Student name'), t('Course id'), t('Course name'),
   t('Pretest grade'), t('Posttest grade'), t('Evaluation'), 
-  t('Evaluation completion date'), t('Certificate completion date'));
+  t('Evaluation completion date'), t('Certificate completion date')). t('Certificate issued');
 $rows = array();
 while($course_info = db_fetch_object($result)) {
   $eval_taken = ($course_info->eval == TRUE) ? t('Yes') : t('No');
+  $cert_issued = (strpos($course_info->cert_completiondate, '1969') === FALSE) ? t('Yes') : t('No');
   $completiondate = (strpos($course_info->completiondate, '1969') === FALSE) ? $course_info->completiondate : t('Not complete');
   $cert_completiondate = (strpos($course_info->cert_completiondate, '1969') === FALSE) ? $course_info->cert_completiondate : t('Not complete');
   $rows[] = array(
@@ -38,7 +39,8 @@ while($course_info = db_fetch_object($result)) {
     $course_info->posttest,
     $eval_taken,
     $completiondate,
-    $cert_completiondate
+    $cert_completiondate,
+    $cert_issued
   );
 }
 $output .= theme('table', $header, $rows);
