@@ -18,15 +18,11 @@ mdl_grade_grades.rawgrade AS raw_grade,
 mdl_grade_grades.finalgrade AS final_grade,
 mdl_grade_grades.timecreated AS date_created,
 mdl_grade_grades.timemodified AS date_modified,
-SUBSTRING(mdl_grade_grades.feedback, 1, 15),
-mdl_questionnaire_response.complete as eval_complete
+SUBSTRING(mdl_grade_grades.feedback, 1, 15)
 FROM mdl_grade_grades
 JOIN mdl_user ON mdl_grade_grades.userid = mdl_user.id
 JOIN mdl_grade_items ON mdl_grade_grades.itemid = mdl_grade_items.id
 JOIN mdl_course ON mdl_grade_items.courseid = mdl_course.id
-JOIN mdl_questionnaire ON mdl_questionnaire.course = mdl_course.id AND mdl_questionnaire.name = "Course Evaluation"
-JOIN mdl_questionnaire_attempts ON mdl_questionnaire_attempts.qid = mdl_questionnaire.id AND mdl_questionnaire_attempts.userid = mdl_user.id
-JOIN mdl_questionnaire_response ON mdl_questionnaire_response.id = mdl_questionnaire_attempts.rid
 ORDER BY mdl_course.idnumber,
  mdl_user.username,
  mdl_grade_items.itemname, mdl_grade_grades.timemodified';
@@ -47,13 +43,13 @@ while($row = db_fetch_array($results)) {
   }
   if(strpos($row['gradebookitem'], 'Course Evaluation') !== FALSE) {
     if($row['final_grade'] != 0) {
-      // $grades[$studentname][$course_id]['eval'] = TRUE;
+      $grades[$studentname][$course_id]['eval'] = TRUE;
       $grades[$studentname][$course_id]['completiondate'] = $row['date_modified'];
     }
   }
-  if($row['eval_complete'] == 'y') {
+  /* if($row['eval_complete'] == 'y') {
     $grades[$studentname][$course_id]['eval'] = TRUE;
-  }
+  } */
   if(strpos($row['gradebookitem'], 'Pre Test') !== FALSE) {
     $grades[$studentname][$course_id]['pretest'] = $row['final_grade'];
   }  
