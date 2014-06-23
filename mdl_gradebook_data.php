@@ -48,7 +48,7 @@ while($row = db_fetch_array($results)) {
       $grades[$studentname][$course_id]['eval'] = TRUE;
       $grades[$studentname][$course_id]['completiondate'] = $row['date_modified'];
     }
-    $sql = 'select certificateid, userid, timecreated from mdl_certificate_issues 
+    $sql = 'select timecreated from mdl_certificate_issues 
     join mdl_certificate on mdl_certificate.id = mdl_certificate_issues.certificateid 
     where mdl_certificate_issues.userid = %d and mdl_certificate.course = %d'
     $grades[$studentname][$course_id]['cert_completiondate'] = db_result(db_query($sql, $student_id, $course_id));
