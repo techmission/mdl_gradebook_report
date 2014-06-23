@@ -29,7 +29,7 @@ $rows = array();
 while($course_info = db_fetch_object($result)) {
   $eval_taken = ($course_info->eval == TRUE) ? t('Yes') : t('No');
   $completiondate = (strpos($course_info->completiondate, '1969') === FALSE) ? $course_info->completiondate : t('Not complete');
-  $cert_completiondate = (strpos($course_info->cert_completiondate, '1969') === FALSE) ? $course_info->completiondate : t('Not complete');
+  $cert_completiondate = (strpos($course_info->cert_completiondate, '1969') === FALSE) ? $course_info->cert_completiondate : t('Not complete');
   $rows[] = array(
     $course_info->studentname,
     $course_info->course_id,
