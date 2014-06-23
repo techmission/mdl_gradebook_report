@@ -13,7 +13,8 @@ $execute = `/usr/bin/php /home/nettm5/public_html/drupal/courseinfo_ac3s/mdl_gra
 db_set_active('nettm5_moodle');
 
 $sql = 'select g.studentname, g.course_id, c.shortname, g.pretest,' .
-  'g.posttest, g.eval, from_unixtime(g.completiondate) as completiondate' .
+  'g.posttest, g.eval, from_unixtime(g.completiondate) as completiondate,' .
+  'from_unixtime(g.cert_completiondate) as cert_completiondate' .
   ' from mdl_grades_denormalized g ' .
   'join mdl_course c on g.course_id = c.idnumber where ' .
   'g.course_id != ""';
@@ -22,11 +23,13 @@ $result = db_query($sql);
 $output = '<h1>' . t('Moodle grades') . '</h1>';
 
 $header = array(t('Student name'), t('Course id'), t('Course name'),
-  t('Pretest grade'), t('Posttest grade'), t('Evaluation'), t('Completion date'));
+  t('Pretest grade'), t('Posttest grade'), t('Evaluation'), 
+  t('Evaluation completion date'), t('Certificate completion date'));
 $rows = array();
 while($course_info = db_fetch_object($result)) {
   $eval_taken = ($course_info->eval == TRUE) ? t('Yes') : t('No');
   $completiondate = (strpos($course_info->completiondate, '1969') === FALSE) ? $course_info->completiondate : t('Not complete');
+  $cert_completiondate = (strpos($course_info->cert_completiondate, '1969') === FALSE) ? $course_info->completiondate : t('Not complete');
   $rows[] = array(
     $course_info->studentname,
     $course_info->course_id,
@@ -34,7 +37,8 @@ while($course_info = db_fetch_object($result)) {
     $course_info->pretest,
     $course_info->posttest,
     $eval_taken,
-    $completiondate
+    $completiondate,
+    $cert_completiondate
   );
 }
 $output .= theme('table', $header, $rows);
