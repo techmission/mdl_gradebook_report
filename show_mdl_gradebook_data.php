@@ -24,7 +24,7 @@ $output = '<h1>' . t('Moodle grades') . '</h1>';
 
 $header = array(t('Student name'), t('Course id'), t('Course name'),
   t('Pretest grade'), t('Posttest grade'), t('Evaluation'), 
-  t('Evaluation completion date'), t('Certificate completion date')). t('Certificate issued');
+  t('Evaluation completion date'), t('Certificate completion date'), t('Certificate issued'));
 $rows = array();
 while($course_info = db_fetch_object($result)) {
   $eval_taken = ($course_info->eval == TRUE) ? t('Yes') : t('No');
