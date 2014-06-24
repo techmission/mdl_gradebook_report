@@ -53,7 +53,6 @@ while($row = db_fetch_array($results)) {
     join mdl_certificate on mdl_certificate.id = mdl_certificate_issues.certificateid 
     where mdl_certificate_issues.userid = %d and mdl_certificate.course = %d';
     $grades[$studentname][$course_id]['cert_completiondate'] = db_result(db_query($sql, $student_id, $row['course_idnum']));
-    echo $grades[$studentname][$course_id]['cert_completion_date'] . PHP_EOL;
   }
   /* if($row['eval_complete'] == 'y') {
     $grades[$studentname][$course_id]['eval'] = TRUE;
