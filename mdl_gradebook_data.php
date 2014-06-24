@@ -34,6 +34,7 @@ while($row = db_fetch_array($results)) {
   $studentname = $row['firstname'] . ' ' . $row['lastname'];
   $student_id = $row['student_id'];
   $course_id = $row['course_id'];
+  echo $course_id . PHP_EOL;
   if(!isset($grades[$studentname][$course_id])) {
     $grades[$studentname][$course_id]['firstname'] = $row['firstname'];
     $grades[$studentname][$course_id]['lastname'] = $row['lastname'];
@@ -51,9 +52,9 @@ while($row = db_fetch_array($results)) {
     $sql = 'select timecreated from mdl_certificate_issues 
     join mdl_certificate on mdl_certificate.id = mdl_certificate_issues.certificateid 
     where mdl_certificate_issues.userid = %d and mdl_certificate.course = %d';
-    echo sprintf($sql, $student_id, $course_id);
+    echo sprintf($sql, $student_id, $course_id) . PHP_EOL;
     $grades[$studentname][$course_id]['cert_completiondate'] = db_result(db_query($sql, $student_id, $course_id));
-    echo $grades[$studentname][$course_id]['cert_completion_date'];
+    echo $grades[$studentname][$course_id]['cert_completion_date'] . PHP_EOL;
   }
   /* if($row['eval_complete'] == 'y') {
     $grades[$studentname][$course_id]['eval'] = TRUE;
